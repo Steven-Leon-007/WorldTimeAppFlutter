@@ -1,0 +1,42 @@
+[
+    {
+        "locationName": "London",
+        "flagUri": "uk.png",
+        "cityUrl": "Europe/London"
+    },
+    {
+        "locationName": "Athens",
+        "flagUri": "greece.png",
+        "cityUrl": "Europe/Berlin"
+    },
+    {
+        "locationName": "Cairo",
+        "flagUri": "egypt.png",
+        "cityUrl": "Africa/Cairo"
+    },
+    {
+        "locationName": "Nairobi",
+        "flagUri": "kenya.png",
+        "cityUrl": "Africa/Nairobi"
+    },
+    {
+        "locationName": "Chicago",
+        "flagUri": "usa.png",
+        "cityUrl": "America/Chicago"
+    },
+    {
+        "locationName": "New York",
+        "flagUri": "usa.png",
+        "cityUrl": "America/New_York"
+    },
+    {
+        "locationName": "Seoul",
+        "flagUri": "south_korea.png",
+        "cityUrl": "Asia/Seoul"
+    },
+    {
+        "locationName": "Jakarta",
+        "flagUri": "indonesia.png",
+        "cityUrl": "Asia/Jakarta"
+    }
+]
