@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:world_time_app/pages/choose_location.dart';
 import 'package:world_time_app/shared/shared_text_main.dart';
 
 class Home extends StatefulWidget {
@@ -37,11 +39,14 @@ class _HomeState extends State<Home> {
               FilledButton.icon(
                 onPressed: () async {
                   // Push another screen on top of the current screen, takes context to know where it is
-                  dynamic newData = await Navigator.pushNamed(
-                      context, "/location",
-                      arguments: {
-                        "locations": data["locations"],
-                      });
+                  dynamic newData = await Navigator.push(
+                      context,
+                      PageTransition(
+                          child: const ChooseLocation(),
+                          type: PageTransitionType.rightToLeft,
+                          settings: RouteSettings(arguments: {
+                            "locations": data["locations"],
+                          })));
                   setState(() {
                     // Here we set the state to trigger a re-build with the new data
                     if (newData != null) {

@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:world_time_app/pages/home.dart';
 import 'package:world_time_app/services/world_time.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -48,11 +50,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   // }
 
   void setupWorldTime() async {
-    WorldTime instance = WorldTime(
-        locationName: "Bogotá",
-        flagUri: "bogota.png",
-        cityUrl: "America/Bogota");
-    await instance.getTime();
+    WorldTime instance = WorldTime(locationName: "", flagUri: "", cityUrl: "");
+    await instance.getUserIpTime();
 
     // Here we will call the data loader for pass it to the next screen to be used
     List<WorldTime> locations = await fetchLocations();
@@ -62,13 +61,18 @@ class _LoadingScreenState extends State<LoadingScreen> {
     await Future.delayed(const Duration(seconds: 2));
 
     if (mounted) {
-      Navigator.pushReplacementNamed(context, "/home", arguments: {
-        "location": instance.locationName,
-        "flag": instance.flagUri,
-        "time": instance.time,
-        "isDayTime": instance.isDayTime,
-        "locations": locations,
-      });
+      Navigator.pushReplacement(
+          context,
+          PageTransition(
+              child: const Home(),
+              type: PageTransitionType.bottomToTop,
+              settings: RouteSettings(arguments: {
+                "location": instance.locationName,
+                "flag": instance.flagUri,
+                "time": instance.time,
+                "isDayTime": instance.isDayTime,
+                "locations": locations,
+              })));
     }
   }
 
@@ -77,10 +81,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
     String appDocPath = localDirectory.path;
     final file = File('$appDocPath/locations.json');
 
-
     if (!await file.exists()) {
       // read the file from assets first and create the local file with its contents
-      final initialContent = await rootBundle.loadString("assets/data/locations.json");
+      final initialContent =
+          await rootBundle.loadString("assets/data/locations.json");
       await file.create();
       await file.writeAsString(initialContent);
     }

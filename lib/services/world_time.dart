@@ -38,6 +38,36 @@ class WorldTime {
     }
   }
 
+  Future<void> getUserIpTime() async {
+    try {
+      Response res = await get(Uri.https('worldtimeapi.org', '/api/ip'));
+
+      Map data = convert.jsonDecode(res.body);
+
+      // get props from data
+      String dayTime = data["datetime"];
+      String offset = data["utc_offset"].substring(0, 3);
+
+      // convert to DateTime object
+      DateTime now = DateTime.parse(dayTime);
+      now = now.add(Duration(hours: int.parse(offset)));
+
+      isDayTime = now.hour > 6 && now.hour < 20 ? true : false;
+
+      time = DateFormat.jm().format(now);
+
+      // All the same but here we will set again the values of the object
+      locationName = data["timezone"];
+      locationName = locationName
+          .substring(locationName.lastIndexOf("/") + 1)
+          .replaceAll(RegExp(r'_'), ' ');
+
+      cityUrl = data["timezone"];
+    } catch (e) {
+      time = "couldn't get time data";
+    }
+  }
+
   factory WorldTime.fromJson(Map<String, dynamic> json) {
     return WorldTime(
       locationName: json['locationName'],

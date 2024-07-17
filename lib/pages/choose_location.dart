@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:world_time_app/pages/create_location.dart';
 import 'package:world_time_app/pages/locations_element_builder.dart';
 import 'package:world_time_app/services/locations_zones.dart';
 import 'package:world_time_app/services/world_time.dart';
@@ -50,10 +52,14 @@ class _ChooseLocationState extends State<ChooseLocation> {
     }
 
     if (mounted) {
-      dynamic newLocation =
-          await Navigator.pushNamed(context, "/create", arguments: {
-        "possibleLocations": possibleLocations,
-      });
+      dynamic newLocation = await Navigator.push(
+          context,
+          PageTransition(
+              child: const Createlocation(),
+              type: PageTransitionType.bottomToTop,
+              settings: RouteSettings(arguments: {
+                "possibleLocations": possibleLocations,
+              })));
 
       // here goes the setState for update the list and to trigger a re-build
       if (newLocation != null) {
