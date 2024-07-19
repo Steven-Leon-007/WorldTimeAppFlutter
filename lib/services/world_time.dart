@@ -8,7 +8,7 @@ class WorldTime {
   late String time;
   String flagUri;
   String cityUrl;
-  late bool isDayTime;
+  bool isDayTime = true;
 
   WorldTime(
       {required this.locationName,
@@ -34,7 +34,7 @@ class WorldTime {
 
       time = DateFormat.jm().format(now);
     } catch (e) {
-      time = "couldn't get time data";
+      time = "couldn't get time data ${e}";
     }
   }
 
